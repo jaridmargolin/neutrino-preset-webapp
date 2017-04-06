@@ -1,0 +1,71 @@
+'use strict'
+
+/* -----------------------------------------------------------------------------
+ * dependencies
+ * -------------------------------------------------------------------------- */
+
+// core
+const path = require('path')
+
+// 3rd party (libs)
+const _ = require('lodash')
+const merge = require('deepmerge')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+
+// 3rd party (middleware)
+const presetReact = require('neutrino-preset-react')
+const middlewareStandardReact = require('neutrino-middleware-standardreact')
+const middlewareExtractStyles = require('neutrino-middleware-extractstyles')
+const middlewareBundleAnalyzer = require('neutrino-middleware-bundleanalyzer')
+
+/* -----------------------------------------------------------------------------
+ * neutrino-web-app
+ * -------------------------------------------------------------------------- */
+
+// https://github.com/vuejs/vue-loader/issues/666#issuecomment-281966916
+process.noDeprecation = true
+
+module.exports = (neutrino) => {
+  neutrino.options.output = path.join(neutrino.options.root, 'dist')
+
+  neutrino.use(presetReact)
+  neutrino.use(middlewareStandardReact)
+  neutrino.use(middlewareExtractStyles)
+  neutrino.use(middlewareBundleAnalyzer)
+
+  neutrino.config.stats({
+    hash: false,
+    assets: false,
+    chunks: false,
+    children: false,
+    version: false,
+    colors: true
+  })
+
+  neutrino.config.module
+    .rule('compile')
+    .use('babel')
+    .tap((options) => merge(options, {
+      plugins: [
+        require.resolve('babel-plugin-transform-class-properties'),
+        require.resolve('babel-plugin-lodash')
+      ]
+    }))
+
+  neutrino.config.plugin('lodash')
+    .use(LodashModuleReplacementPlugin)
+
+  if (process.env.NODE_ENV === 'development') {
+    neutrino.config.devServer.host('0.0.0.0')
+  }
+
+  if (process.env.NODE_ENV !== 'development') {
+    neutrino.config.plugin('clean')
+      .tap(args => [args[0], merge(args[1], { exclude: ['static'] })])
+
+    neutrino.config.plugin('copy')
+      .tap(args => [[
+        { context: neutrino.options.source, from: 'static/**/*' }
+      ], args[1]])
+  }
+}
