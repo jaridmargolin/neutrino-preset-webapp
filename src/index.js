@@ -53,7 +53,10 @@ module.exports = (neutrino) => {
     }))
 
   neutrino.config.plugin('lodash')
-    .use(LodashModuleReplacementPlugin)
+    .use(LodashModuleReplacementPlugin, [{
+      'collections': true,
+      'paths': true
+    }])
 
   if (process.env.NODE_ENV === 'development') {
     neutrino.config.devServer.host('0.0.0.0')
