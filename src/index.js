@@ -55,7 +55,8 @@ module.exports = (neutrino) => {
   neutrino.config.plugin('lodash')
     .use(LodashModuleReplacementPlugin, [{
       'collections': true,
-      'paths': true
+      'paths': true,
+      'flattening': true
     }])
 
   if (process.env.NODE_ENV === 'development') {
