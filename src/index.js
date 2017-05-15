@@ -11,7 +11,6 @@ const path = require('path')
 const _ = require('lodash')
 const merge = require('deepmerge')
 const webpack = require('webpack')
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 // 3rd party (middleware)
 const presetReact = require('neutrino-preset-react')
@@ -60,13 +59,6 @@ module.exports = (neutrino) => {
   neutrino.config.plugin('replace-lodash-es')
     .use(webpack.NormalModuleReplacementPlugin, [/^lodash-es(\/|$)/, (res) => {
       res.request = res.request.replace(/^lodash-es(\/|$)/, 'lodash$1');
-    }])
-
-  neutrino.config.plugin('lodash')
-    .use(LodashModuleReplacementPlugin, [{
-      'collections': true,
-      'paths': true,
-      'flattening': true
     }])
 
   if (process.env.NODE_ENV === 'development') {
