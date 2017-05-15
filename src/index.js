@@ -10,6 +10,7 @@ const path = require('path')
 // 3rd party (libs)
 const _ = require('lodash')
 const merge = require('deepmerge')
+const webpack = require('webpack')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 // 3rd party (middleware)
@@ -53,6 +54,13 @@ module.exports = (neutrino) => {
       presets: [ require.resolve('babel-preset-stage-0') ],
       plugins: [ require.resolve('babel-plugin-lodash') ]
     }))
+
+  // transform lodash -> lodash-es... required due to lodash-es not
+  // supporting lodash/fp
+  neutrino.config.plugin('replace-lodash-es')
+    .use(webpack.NormalModuleReplacementPlugin, [/^lodash-es(\/|$)/, (res) => {
+      res.request = res.request.replace(/^lodash-es(\/|$)/, 'lodash$1');
+    }])
 
   neutrino.config.plugin('lodash')
     .use(LodashModuleReplacementPlugin, [{
