@@ -74,6 +74,9 @@ module.exports = (neutrino) => {
   }
 
   if (process.env.NODE_ENV !== 'development') {
+    neutrino.config.plugin('ignore-logger')
+      .use(webpack.IgnorePlugin, [/redux-logger/])
+
     neutrino.config.plugin('clean')
       .tap(args => [args[0], merge(args[1], { exclude: ['static'] })])
 
