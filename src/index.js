@@ -33,6 +33,10 @@ module.exports = (neutrino) => {
   neutrino.use(middlewareExtractStyles)
   neutrino.use(middlewareBundleAnalyzer)
 
+  // temporary until removed from neutrino-preset-web
+  neutrino.config.node
+    .set('Buffer', false)
+
   neutrino.config.stats({
     hash: false,
     assets: false,
