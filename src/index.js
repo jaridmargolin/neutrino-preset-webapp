@@ -46,10 +46,8 @@ module.exports = (neutrino) => {
     .rule('compile')
     .use('babel')
     .tap((options) => merge(options, {
-      plugins: [
-        require.resolve('babel-plugin-transform-class-properties'),
-        require.resolve('babel-plugin-lodash')
-      ]
+      presets: [ require.resolve('babel-preset-stage-0') ],
+      plugins: [ require.resolve('babel-plugin-lodash') ]
     }))
 
   neutrino.config.plugin('lodash')
