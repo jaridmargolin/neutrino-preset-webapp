@@ -16,6 +16,7 @@ const webpack = require('webpack')
 const presetReact = require('neutrino-preset-react')
 const middlewareStandardReact = require('neutrino-middleware-standardreact')
 const middlewareExtractStyles = require('neutrino-middleware-extractstyles')
+const middlewareOptimizeCss = require('neutrino-middleware-optimizecss')
 const middlewareBundleAnalyzer = require('neutrino-middleware-bundleanalyzer')
 
 /* -----------------------------------------------------------------------------
@@ -31,6 +32,7 @@ module.exports = (neutrino) => {
   neutrino.use(presetReact)
   neutrino.use(middlewareStandardReact)
   neutrino.use(middlewareExtractStyles)
+  neutrino.use(middlewareOptimizeCss)
   neutrino.use(middlewareBundleAnalyzer)
 
   // temporary until removed from neutrino-preset-web
