@@ -35,10 +35,6 @@ module.exports = (neutrino) => {
   neutrino.use(middlewareOptimizeCss)
   neutrino.use(middlewareBundleAnalyzer)
 
-  // temporary until removed from neutrino-preset-web
-  neutrino.config.node
-    .set('Buffer', false)
-
   neutrino.config.stats({
     hash: false,
     assets: false,
@@ -73,10 +69,5 @@ module.exports = (neutrino) => {
 
     neutrino.config.plugin('clean')
       .tap(args => [args[0], merge(args[1], { exclude: ['static'] })])
-
-    neutrino.config.plugin('copy')
-      .tap(args => [[
-        { context: neutrino.options.source, from: 'static/**/*' }
-      ], args[1]])
   }
 }
