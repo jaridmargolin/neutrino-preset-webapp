@@ -1,3 +1,7 @@
+Moved to: [neutrino-contrib/neutrino-preset-webapp](https://github.com/jaridmargolin/neutrino-contrib/tree/master/packages/neutrino-preset-webapp)
+
+---
+
 # Neutrino WebApp Preset
 [![NPM version][npm-image]][npm-url] [![NPM downloads][npm-downloads]][npm-url]
 
